@@ -1,0 +1,6 @@
+include versioneer.py
+include scriptrunner/_version.py
+include README.rst
+include LICENSE
+include *requirements.txt
+include scriptrunner/_version.py
