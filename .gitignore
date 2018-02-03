@@ -8,3 +8,5 @@ dist/
 MANIFEST
 .ipynb_checkpoints/
 htmlcov/
+.cache/
+.pytest_cache/

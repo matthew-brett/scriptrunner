@@ -35,6 +35,10 @@ setup(name='scriptrunner',
       packages=['scriptrunner',
                 'scriptrunner.tests'
                ],
+      package_data = {'scriptrunner': [
+          'tests/mypkg66/*',
+          'tests/mypkg66/mypkg66/*',
+          'tests/mypkg66/scripts/*']},
       license='BSD license',
       classifiers = [
           'Development Status :: 2 - Pre-Alpha',
