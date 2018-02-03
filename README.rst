@@ -8,8 +8,29 @@ Scriptrunner - utility for testing command line scripts
 Quickstart
 **********
 
-See the tests for examples of using Scriptrunner for testing builds of Sphinx
-projects.
+Provides class to be instantiated in tests that check that scripts can be run
+and give correct output.  Usually works something like this in a test module::
+
+    import mymodule
+    from scriptrunner import ScriptRunner
+    runner = ScriptRunner(mymodule)
+
+Then, in the tests, something like::
+
+    code, stdout, stderr = runner.run_command(['my-script', my_arg])
+    assert code == 0
+    assert stdout == b'This script ran OK'
+
+The class aims to find your scripts whether you have installed (with ``pip
+install .`` or ``pip install -e .`` or ``python setup.py install``), or not.
+If you have not installed, the scripts will not be on your system PATH, and we
+have to find them.  The heuristic is to look (by default) in the directory
+containing ``mymodule``; if there is a ``setup.py`` file there, and a
+``scripts`` sub-directory, assume that directory contains the scripts.
+
+Note there is no way of using this not-installed mechanism to find entrypoint
+scripts, that have not been installed. To find these, we would have to run the
+``setup.py`` file.
 
 ************
 Installation

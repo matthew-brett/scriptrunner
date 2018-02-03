@@ -1,7 +1,7 @@
 """ Module to help tests check script output
 
-Provides class to be instantiated in tests that check scripts.  Usually works
-something like this in a test module::
+Provides class to be instantiated in tests that check that scripts can be run
+and give correct output.  Usually works something like this in a test module::
 
     import mymodule
     from scriptrunner import ScriptRunner
@@ -18,12 +18,10 @@ install .`` or ``pip install -e .`` or ``python setup.py install``), or not.
 If you have not installed, the scripts will not be on your system PATH, and we
 have to find them.  The heuristic is to look (by default) in the directory
 containing ``mymodule``; if there is a ``setup.py`` file there, and a
-``scripts`` subirectory, assume that directory contains the scripts.  Customize
-by overriding :meth:`ScriptRunner.devel_script_dir`, or by passing not-default
-options to the class constructor.
+``scripts`` sub-directory, assume that directory contains the scripts.
 
-Note that, there is no way of using this mechanism to find entrypoint scripts,
-that have not been installed. To find these, we would have to run the
+Note there is no way of using this not-installed mechanism to find entrypoint
+scripts, that have not been installed. To find these, we would have to run the
 ``setup.py`` file.
 """
 
