@@ -4,6 +4,7 @@ include README.rst
 include LICENSE
 include *requirements.txt
 include scriptrunner/_version.py
+recursive-include scriptrunner/tests *
 recursive-include scriptrunner/tests/mypkg66 *
 recursive-include scriptrunner/tests/mypkg66/scripts *
 recursive-include scriptrunner/tests/mypkg66/mypkg66 *

@@ -24,6 +24,7 @@ def test_local(tmpdir, rollback_modules, cwd_on_path):
     os.chdir('pkg_dir')
     # Check we can instantiate with string, and module
     import mypkg66 as my_module
+    assert realpath(dirname(my_module.__file__)) == realpath('mypkg66')
     for rooter in ('mypkg66', my_module):
         runner = ScriptRunner(rooter)
         assert runner.local_script_dir == realpath('scripts')
@@ -79,9 +80,11 @@ def test_system(tmpdir,
     orig_script_dir = pjoin('pkg_dir', 'scripts')
     shutil.move(orig_script_dir, 'script_dir')
     assert not isdir(orig_script_dir)
-    sys.path.append('pkg_dir')
+    sys.path.insert(0, 'pkg_dir')
     # We should now be able to import
     import mypkg66 as my_module
+    assert (realpath(dirname(my_module.__file__)) ==
+            realpath(pjoin('pkg_dir', 'mypkg66')))
     # Put scripts on system PATH
     os.environ["PATH"] = os.environ["PATH"] + pathsep + 'script_dir'
     script_path = pjoin('script_dir', 'mypkg66_script')

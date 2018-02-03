@@ -32,10 +32,9 @@ setup(name='scriptrunner',
       maintainer='Matthew Brett',
       maintainer_email='matthew.brett@gmail.com',
       url='http://github.com/matthew-brett/scriptrunner',
-      packages=['scriptrunner',
-                'scriptrunner.tests'
-               ],
+      packages=['scriptrunner'],
       package_data = {'scriptrunner': [
+          'tests/*',
           'tests/mypkg66/*',
           'tests/mypkg66/mypkg66/*',
           'tests/mypkg66/scripts/*']},

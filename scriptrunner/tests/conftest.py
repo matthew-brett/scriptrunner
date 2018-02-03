@@ -22,14 +22,17 @@ def tmpdir():
 
 @pytest.fixture
 def cwd_on_path():
-    sys.path.append('.')
+    sys.path.insert(0, '.')
     yield
-    sys.path.pop()
+    sys.path.pop(0)
 
 
 @pytest.fixture
 def rollback_modules():
     modules = sys.modules.copy()
+    # Remove module in case it's already imported.
+    # Coverage appears to do this.
+    sys.modules.pop('mypkg66', None)
     yield
     for key, value in list(sys.modules.items()):
         if not key in modules:

@@ -53,10 +53,6 @@ before_install:
     - python --version  # just to check
     - pip install pytest mock # always
     - pip install $EXTRA_PIP_FLAGS -f $EXTRA_WHEELS $DEPENDS
-    - if [ -n "$COVERAGE" ]; then
-      pip install coverage;
-      pip install codecov;
-      fi
 
 install:
     - |
