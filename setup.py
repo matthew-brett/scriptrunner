@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-''' Installation script for scriptrunner package '''
+''' Installation script for scripttester package '''
 import re
 
 import setuptools
@@ -23,7 +23,7 @@ requires = [break_ver.sub(r'\1 (\3)', req) for req in install_requires]
 
 cmdclass = versioneer.get_cmdclass()
 
-setup(name='scriptrunner',
+setup(name='scripttester',
       version=versioneer.get_version(),
       cmdclass=cmdclass,
       description='Utility for testing command line scripts',
@@ -31,9 +31,9 @@ setup(name='scriptrunner',
       author_email='matthew.brett@gmail.com',
       maintainer='Matthew Brett',
       maintainer_email='matthew.brett@gmail.com',
-      url='http://github.com/matthew-brett/scriptrunner',
-      packages=['scriptrunner'],
-      package_data = {'scriptrunner': [
+      url='http://github.com/matthew-brett/scripttester',
+      packages=['scripttester'],
+      package_data = {'scripttester': [
           'tests/*.py',
           'tests/mypkg66/*.py',
           'tests/mypkg66/mypkg66/*',

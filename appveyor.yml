@@ -29,4 +29,4 @@ test_script:
   # Change into an innocuous directory and find tests from installation
   - mkdir for_testing
   - cd for_testing
-  - py.test --doctest-modules --pyargs scriptrunner
+  - py.test --doctest-modules --pyargs scripttester

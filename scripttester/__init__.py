@@ -1,7 +1,7 @@
 """ Scriprunner package
 """
 
-from .scriptrunner import *
+from .scripttester import *
 
 from ._version import get_versions
 __version__ = get_versions()['version']

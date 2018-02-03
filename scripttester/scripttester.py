@@ -4,8 +4,8 @@ Provides class to be instantiated in tests that check that scripts can be run
 and give correct output.  Usually works something like this in a test module::
 
     import mymodule
-    from scriptrunner import ScriptRunner
-    runner = ScriptRunner(mymodule)
+    from scripttester import ScriptTester
+    runner = ScriptTester(mymodule)
 
 Then, in the tests, something like::
 
@@ -39,7 +39,7 @@ except NameError: # Python 3
     string_types = str,
 
 
-class ScriptRunner(object):
+class ScriptTester(object):
     """ Class to run scripts and return output
 
     Finds local scripts and local modules if running in the development
@@ -53,7 +53,7 @@ class ScriptRunner(object):
                  output_processor=lambda x : x,
                  win_bin_ext='.exe',
                 ):
-        """ Initialise ScriptRunner instance
+        """ Initialise ScriptTester instance
 
         Parameters
         ----------

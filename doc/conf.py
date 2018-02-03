@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# scriptrunner documentation build configuration file, created by
+# scripttester documentation build configuration file, created by
 # sphinx-quickstart on Fri Feb  2 23:37:45 2018.
 #
 # This file is execfile()d with the current directory set to its
@@ -47,7 +47,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'scriptrunner'
+project = 'scripttester'
 copyright = '2018, Matthew Brett'
 author = 'Matthew Brett'
 
@@ -116,7 +116,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'scriptrunnerdoc'
+htmlhelp_basename = 'scripttesterdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -143,7 +143,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'scriptrunner.tex', 'scriptrunner Documentation',
+    (master_doc, 'scripttester.tex', 'scripttester Documentation',
      'Matthew Brett', 'manual'),
 ]
 
@@ -153,7 +153,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'scriptrunner', 'scriptrunner Documentation',
+    (master_doc, 'scripttester', 'scripttester Documentation',
      [author], 1)
 ]
 
@@ -164,8 +164,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'scriptrunner', 'scriptrunner Documentation',
-     author, 'scriptrunner', 'One line description of project.',
+    (master_doc, 'scripttester', 'scripttester Documentation',
+     author, 'scripttester', 'One line description of project.',
      'Miscellaneous'),
 ]
 

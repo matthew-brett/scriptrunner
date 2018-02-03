@@ -42,8 +42,8 @@ def get_config():
     cfg.VCS = "git"
     cfg.style = "pep440"
     cfg.tag_prefix = ""
-    cfg.parentdir_prefix = "scriptrunner-"
-    cfg.versionfile_source = "scriptrunner/_version.py"
+    cfg.parentdir_prefix = "scripttester-"
+    cfg.versionfile_source = "scripttester/_version.py"
     cfg.verbose = False
     return cfg
 

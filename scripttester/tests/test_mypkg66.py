@@ -14,7 +14,7 @@ try:
 except NameError:
     NotFoundError = OSError
 
-from scriptrunner import ScriptRunner
+from scripttester import ScriptTester
 
 import pytest
 
@@ -38,7 +38,7 @@ def test_local(tmpdir, rollback_modules, cwd_on_path):
     import mypkg66 as my_module
     assert realpath(dirname(my_module.__file__)) == realpath('mypkg66')
     for rooter in ('mypkg66', my_module):
-        runner = ScriptRunner(rooter)
+        runner = ScriptTester(rooter)
         assert runner.local_script_dir == realpath('scripts')
         assert runner.local_module_dir == realpath('.')
         assert (runner.run_command('mypkg66_script') ==
@@ -48,23 +48,23 @@ def test_local(tmpdir, rollback_modules, cwd_on_path):
         assert (runner.run_command(['mypkg66_script', 'foo']) ==
                 (0, b'my script+foo' + linesep, b''))
     # Wrong script directory, fails
-    runner = ScriptRunner('mypkg66', 'bin')
+    runner = ScriptTester('mypkg66', 'bin')
     with pytest.raises(NotFoundError):
         runner.run_command('mypkg66_script')
     # Until we rename the script directory
     os.rename('scripts', 'bin')
-    runner = ScriptRunner('mypkg66', 'bin')
+    runner = ScriptTester('mypkg66', 'bin')
     assert (runner.run_command('mypkg66_script') ==
             (0, b'my script' + linesep, b''))
     # Change file indicating containing directory
-    runner = ScriptRunner('mypkg66', 'bin', 'foo.cfg')
+    runner = ScriptTester('mypkg66', 'bin', 'foo.cfg')
     assert runner.local_script_dir is None
     assert runner.local_module_dir == realpath('.')
     with pytest.raises(NotFoundError):
         runner.run_command('mypkg66_script')
     # Put file at expected location
     os.rename('setup.py', 'foo.cfg')
-    runner = ScriptRunner('mypkg66', 'bin', 'foo.cfg')
+    runner = ScriptTester('mypkg66', 'bin', 'foo.cfg')
     assert runner.local_script_dir == realpath('bin')
     assert runner.local_module_dir == realpath('.')
     assert (runner.run_command('mypkg66_script') ==
@@ -120,7 +120,7 @@ def test_system(tmpdir,
     else:
         prepare_windows_script(script_path)
     for rooter in ('mypkg66', my_module):
-        runner = ScriptRunner(rooter)
+        runner = ScriptTester(rooter)
         assert runner.local_script_dir == None
         assert runner.local_module_dir == None
         assert (runner.run_command('mypkg66_script') ==
@@ -129,7 +129,7 @@ def test_system(tmpdir,
                 (0, b'my script' + linesep, b''))
     if os.name == 'nt':
         # Try changing executable extension
-        runner = ScriptRunner('mypkg66', win_bin_ext='.bat')
+        runner = ScriptTester('mypkg66', win_bin_ext='.bat')
         os.unlink(script_path + '.exe')
         os.unlink(script_path + '-script.py')
         prepare_windows_script(script_path, '.bat')
