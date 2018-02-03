@@ -17,6 +17,8 @@ import pytest
 
 MYPKG_PATH = abspath(pjoin(dirname(__file__), 'mypkg66'))
 
+linesep = os.linesep.encode('ascii')
+
 
 def test_local(tmpdir, rollback_modules, cwd_on_path):
     shutil.copytree(MYPKG_PATH, 'pkg_dir')
@@ -29,10 +31,12 @@ def test_local(tmpdir, rollback_modules, cwd_on_path):
         runner = ScriptRunner(rooter)
         assert runner.local_script_dir == realpath('scripts')
         assert runner.local_module_dir == realpath('.')
-        assert runner.run_command('mypkg66_script') == (0, b'my script\n', b'')
-        assert runner.run_command(['mypkg66_script']) == (0, b'my script\n', b'')
+        assert (runner.run_command('mypkg66_script') ==
+                (0, b'my script' + linesep, b''))
+        assert (runner.run_command(['mypkg66_script']) ==
+                (0, b'my script' + linesep, b''))
         assert (runner.run_command(['mypkg66_script', 'foo']) ==
-                (0, b'my script+foo\n', b''))
+                (0, b'my script+foo' + linesep, b''))
     # Wrong script directory, fails
     runner = ScriptRunner('mypkg66', 'bin')
     with pytest.raises(NotFoundError):
@@ -40,7 +44,8 @@ def test_local(tmpdir, rollback_modules, cwd_on_path):
     # Until we rename the script directory
     os.rename('scripts', 'bin')
     runner = ScriptRunner('mypkg66', 'bin')
-    assert runner.run_command('mypkg66_script') == (0, b'my script\n', b'')
+    assert (runner.run_command('mypkg66_script') ==
+            (0, b'my script' + linesep, b''))
     # Change file indicating containing directory
     runner = ScriptRunner('mypkg66', 'bin', 'foo.cfg')
     assert runner.local_script_dir is None
@@ -52,7 +57,8 @@ def test_local(tmpdir, rollback_modules, cwd_on_path):
     runner = ScriptRunner('mypkg66', 'bin', 'foo.cfg')
     assert runner.local_script_dir == realpath('bin')
     assert runner.local_module_dir == realpath('.')
-    assert runner.run_command('mypkg66_script') == (0, b'my script\n', b'')
+    assert (runner.run_command('mypkg66_script') ==
+            (0, b'my script' + linesep, b''))
 
 
 def prepare_unix_script(script_path):
@@ -96,5 +102,7 @@ def test_system(tmpdir,
         runner = ScriptRunner(rooter)
         assert runner.local_script_dir == None
         assert runner.local_module_dir == None
-        assert runner.run_command('mypkg66_script') == (0, b'my script\n', b'')
-        assert runner.run_command(['mypkg66_script']) == (0, b'my script\n', b'')
+        assert (runner.run_command('mypkg66_script') ==
+                (0, b'my script' + linesep, b''))
+        assert (runner.run_command(['mypkg66_script']) ==
+                (0, b'my script' + linesep, b''))
