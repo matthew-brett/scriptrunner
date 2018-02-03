@@ -126,3 +126,11 @@ def test_system(tmpdir,
                 (0, b'my script' + linesep, b''))
         assert (runner.run_command(['mypkg66_script']) ==
                 (0, b'my script' + linesep, b''))
+    if os.name != 'nt':
+        # Try changing executable extension
+        runner = ScriptRunner('mypkg66', win_bin_ext='.bat')
+        os.unlink(script_path + '.exe')
+        os.unlink(script_path + '-script.py')
+        prepare_windows_script(script_path, '.bat')
+        assert (runner.run_command('mypkg66_script') ==
+                (0, b'my script' + linesep, b''))
