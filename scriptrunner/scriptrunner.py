@@ -52,7 +52,8 @@ class ScriptRunner(object):
                  script_sdir='scripts',
                  filename_means_containing='setup.py',
                  debug_print_var=None,
-                 output_processor=lambda x : x
+                 output_processor=lambda x : x,
+                 win_bin_ext='.exe',
                 ):
         """ Initialise ScriptRunner instance
 
@@ -71,9 +72,17 @@ class ScriptRunner(object):
         debug_print_var : str, optional
             Name of environment variable that indicates whether to do debug
             printing or no.
-        output_processor : callable
+        output_processor : callable, optional
             Callable to run on the stdout, stderr outputs before returning
             them.  Use this to convert bytes to unicode, strip whitespace, etc.
+        win_bin_ext : str, optional
+            Extension to indicate callable binary on Windows.  Usually ``.exe``
+            (for setuptools installs), but can be ``.bat`` (for my .bat file
+            solution at [1]).
+
+        Notes
+        -----
+        [1] https://matthew-brett.github.io/pydagogue/installing_scripts.html
         """
         module = (module_or_name if isinstance(module_or_name, ModuleType)
                   else import_module(module_or_name))
@@ -85,6 +94,7 @@ class ScriptRunner(object):
                 self.module_path.upper())
         self.debug_print = os.environ.get(debug_print_var, False)
         self.output_processor = output_processor
+        self.win_bin_ext = win_bin_ext
         self.local_script_dir = self.devel_script_dir()
         self.local_module_dir = self.devel_dir_if_cwd()
 
@@ -157,6 +167,9 @@ class ScriptRunner(object):
             # the script through the Python interpreter
             cmd = [sys.executable,
                    pjoin(self.local_script_dir, cmd[0])] + cmd[1:]
+        elif os.name == 'nt':
+            # Must add extension to find on path with Windows
+            cmd[0] = cmd[0] + self.win_bin_ext
         if os.name == 'nt':
             # Quote any arguments with spaces. The quotes delimit the arguments
             # on Windows, and the arguments might be file paths with spaces.

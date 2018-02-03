@@ -6,6 +6,8 @@ from os.path import join as pjoin, dirname, abspath, isdir, realpath, pathsep
 import shutil
 import stat
 
+import setuptools
+
 try:
     NotFoundError = FileNotFoundError
 except NameError:
@@ -18,6 +20,13 @@ import pytest
 MYPKG_PATH = abspath(pjoin(dirname(__file__), 'mypkg66'))
 
 linesep = os.linesep.encode('ascii')
+
+BAT_TEMPLATE = \
+r"""@echo off
+set mypath=%~dp0
+set pyscript="%mypath%{fname}"
+call "{py_exe}" %pyscript% %*
+"""
 
 
 def test_local(tmpdir, rollback_modules, cwd_on_path):
@@ -63,18 +72,29 @@ def test_local(tmpdir, rollback_modules, cwd_on_path):
 
 def prepare_unix_script(script_path):
     # Rewrite first line, make executable
-    with open(script_path, 'rt') as fobj:
-        lines = fobj.readlines()
-    lines[0] = '#!{}\n'.format(sys.executable)
-    with open(script_path, 'wt') as fobj:
-        fobj.write(''.join(lines))
+    _write_shebang(script_path)
     os.chmod(script_path, stat.S_IRUSR | stat.S_IXUSR)
 
 
-def prepare_windows_script(script_path):
-    # Give up, rewrite as .bat file
-    with open(script_path + '.bat', 'wt') as fobj:
-        fobj.write('@echo my script')
+def _write_shebang(script_path, out_path=None):
+    out_path = script_path if out_path is None else out_path
+    with open(script_path, 'rt') as fobj:
+        lines = fobj.readlines()
+    lines[0] = '#!{}\n'.format(sys.executable)
+    with open(out_path, 'wt') as fobj:
+        fobj.write(''.join(lines))
+
+
+def prepare_windows_script(script_path, win_ext='.exe'):
+    # Rewrite as .bat file or use setuptools .exe trick.
+    if win_ext == '.bat':
+        with open(script_path + win_ext, 'wt') as fobj:
+            fobj.write(BAT_TEMPLATE.format(
+                fname=script_path, py_exe=sys.executable))
+        return
+    cli = pjoin(dirname(setuptools.__file__), 'cli.exe')
+    _write_shebang(script_path, script_path + '-script.py')
+    shutil.copyfile(cli, script_path + '.exe')
 
 
 def test_system(tmpdir,
