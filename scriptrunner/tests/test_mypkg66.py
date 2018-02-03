@@ -2,7 +2,8 @@
 
 import os
 import sys
-from os.path import join as pjoin, dirname, abspath, isdir, realpath, pathsep
+from os.path import (join as pjoin, dirname, abspath, isdir, realpath, pathsep,
+                     basename)
 import shutil
 import stat
 
@@ -90,7 +91,7 @@ def prepare_windows_script(script_path, win_ext='.exe'):
     if win_ext == '.bat':
         with open(script_path + win_ext, 'wt') as fobj:
             fobj.write(BAT_TEMPLATE.format(
-                fname=script_path, py_exe=sys.executable))
+                fname=basename(script_path), py_exe=sys.executable))
         return
     cli = pjoin(dirname(setuptools.__file__), 'cli.exe')
     _write_shebang(script_path, script_path + '-script.py')
